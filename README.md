@@ -32,7 +32,7 @@ https://movie.douban.com/subject/30166972/comments?sort=new_score&status=P
 
 分析一下网页结构, 每一页都有20条评论, 即有20个”comment-item”中,要爬取的数据都在comment-item中, 所以在每个页面依次提取20个”comment-item”中的数据即可.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image004.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image004.jpg)
 
 最后再分析一下翻页的逻辑:
 
@@ -56,7 +56,7 @@ https://movie.douban.com/subject/30166972/comments?start=40&limit=20&sort=new_sc
 
 此爬虫的主框架如下:
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image006.jpg) 
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image006.jpg) 
 
 1. **模拟登录 login_douban()函数**
 
@@ -72,11 +72,11 @@ https://movie.douban.com/subject/30166972/comments?start=40&limit=20&sort=new_sc
 
 试了一些免费代理IP, 总是被封, 图省事, 直接用的收费的, 选的阿布云, 一小时1块钱就可以了, 收费代理的接入也很简单, 参照文档就可以了.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image012.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image012.jpg)
 
 阿布云地址:  https://center.abuyun.com/#/cloud/http-proxy/tunnel/lists
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image014.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image014.jpg)
 
 3. 获取页面response
 
@@ -85,27 +85,27 @@ https://movie.douban.com/subject/30166972/comments?start=40&limit=20&sort=new_sc
 设置好参数url, headers,proxies和cookies后, 传入requests.get()就行了.
 ```
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image016.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image016.jpg)
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image018.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image018.jpg)
 
 4.  从response中提取数据
 
 - a) 提取用户名和点赞数很简单, 只要用xpath按照常规方法提取出来,然后存入对应的列表就可以了.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image020.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image020.jpg)
 
 - b)  提取评论内容时, 有些麻烦.
 
 当没有文字评论内容时，存在子节点，但内容为空。提取不到内容, 最后保存进列表后, 会导致数据错位. 所以此处要判断, 爬取的评论内容是否为空, 如果为空, 就用”无”来填入.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image022.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image022.jpg)
 
 - c)   爬取评分时, 遇到巨坑 !
 
 和没有文字评论还不一样，当没有评分时，连节点也没有。并且当没有评分时，时间xpath路径是不一样的, 所以先要判断是否有评分, 再去根据不同情况提取时间数据.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image024.jpg)      
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image024.jpg)      
 
 ## 1.3  数据保存 : 创建DataFrame并将数据导出为.csv
 
@@ -128,11 +128,12 @@ Jieba和WordCloud的使用都不复杂, 参考网上的教程看一下就可以�
 
 构建词云的时候, 不设置背景图片的话, 就是采用默认图片, 是一个矩形图片.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image028.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image028.jpg)
 
 也可以自定义背景图片, 下面图示, 前一张是背景图, 后一张图是生成的词云.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image030.png)   ![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image032.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image030.png)   
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image032.jpg)
 
 ## 2.2  统计词频 : jieba + counter
 
@@ -140,13 +141,13 @@ Jieba和WordCloud的使用都不复杂, 参考网上的教程看一下就可以�
 
 逻辑大概是, 先删除语句中的非法字符, 然后用jieba进行分词, 再在分词中去掉你不想统计的词(停用词), 得到的就是你想统计的分词列表. 最后用计数器counter()统计.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image033.png)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image033.png)
 
 ## 2.3  情感分析 : 用snownlp根据电影短评进行简单的情感分析
 
 Snownlp是中文自然语言处理工具, 和jieba有些类似, 也可以进行分词, 词性标注, 情感分析等功能.此处我们使用了它的情感分析功能.
 
-此功能的返回值为正面情绪的概率，越接近1表示正面情绪,越接近0表示负面情绪. ![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image035.jpg)
+此功能的返回值为正面情绪的概率，越接近1表示正面情绪,越接近0表示负面情绪. ![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image035.jpg)
 
 # 3.   **数据展示**
 
@@ -154,19 +155,19 @@ Snownlp是中文自然语言处理工具, 和jieba有些类似, 也可以进行�
 
 爬取的数据导入PowerBI, 尝试用PowerBI进行一些分析. 发现PowerBI使用特别方便, 展示性也好, 强烈推荐.
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image037.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image037.jpg)
 
  
 
 ## 3.2  每日评分变化趋势图
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image039.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image039.jpg)
 
 ## 3.3  PowerBI的词云的插件
 
 PowerBI中也有词云的插件, 试用了一下, 发现还是需要提前进行分词, 统计词频,然后再用内部插件做词云, 而且可自定义的程度不高, 背景图也不能换, 不推荐使用PowerBI的词云插件. 
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image041.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image041.jpg)
 
 # **4.**   需要改进的地方
 
