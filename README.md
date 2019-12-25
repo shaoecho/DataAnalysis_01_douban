@@ -2,10 +2,6 @@
 
 具体代码见github:  <https://github.com/shaoecho/DataAnalysis_01_douban>
 
-[toc]
-
-
-
 # **1.**   **豆瓣短评数据抓取**
 
 首先, 去网上查一下豆瓣的反爬机制, 豆瓣从2017.10月开始全面禁止爬取数据:
@@ -24,7 +20,7 @@ https://movie.douban.com/subject/30166972/comments?sort=new_score&status=P
 
 如下图所示:
 
-![img](file:///C:/Users/ASUS/AppData/Local/Temp/msohtmlclip1/01/clip_image002.jpg)
+![img](https://github.com/shaoecho/DataAnalysis_01_douban/blob/master/pic/pic__readme/image002.jpg)
 
 本此数据爬取主要获取的内容有：
 
